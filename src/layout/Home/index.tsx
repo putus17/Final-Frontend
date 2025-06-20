@@ -64,7 +64,7 @@ const HomePage = () => {
             </motion.div>
             <div>
               <h1 className="text-3xl font-extrabold text-[#023047] dark:text-[#a3cef1]">
-                Druk Water Authority
+                Druk Water Authority System (DWAS)
               </h1>
               <p className="text-sm font-medium text-[#0077b6] dark:text-[#48cae4]">
                 National Water Intelligence for Bhutan

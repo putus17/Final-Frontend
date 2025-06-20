@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import GewogCard from '../../components/GewogCard';
 import GewogFormModal from '../../components/GewogForm';
 import { getDzongkhagsApi } from '../../api/dzongkhagApi';
-import { Plus, Search, Settings } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
 import type { DzongkhagType, GewogType, GewogUpdateType } from '../../types';
 import { useGewogStore } from '../../store/useGewogStore';
 
@@ -86,26 +86,18 @@ const GewogManagement = () => {
   if (error) return <div className="p-6 text-center text-red-500">{error}</div>;
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-pink-50 via-white to-blue-50 p-8 font-sans">
+     <div className="min-h-screen bg-gradient-to-b from-blue-900 via-blue-700 to-teal-600 p-6 text-white">
       {/* Glass Header */}
       <header className="max-w-7xl mx-auto mb-12 p-6 bg-white/30 backdrop-blur-md rounded-3xl shadow-lg flex flex-col md:flex-row md:justify-between md:items-center border border-white/40">
         <div>
           <h1 className="text-4xl font-extrabold text-gray-800 tracking-wide drop-shadow-sm">
             Gewog Management
           </h1>
-          <p className="mt-1 text-gray-600 italic font-light max-w-md">
+          <p className="mt-1 text-gray-200 italic font-light max-w-md">
             A clean and simple interface to browse and manage your gewogs.
           </p>
         </div>
-        <button
-          onClick={() => alert('Use the filters and search to quickly find gewogs.')}
-          className="mt-6 md:mt-0 inline-flex items-center gap-2 bg-white/70 hover:bg-white/90 transition rounded-xl px-6 py-3 font-semibold text-gray-700 shadow-md"
-          aria-label="Information"
-          type="button"
-        >
-          <Settings className="w-5 h-5" />
-          Info
-        </button>
+      
       </header>
 
       {/* Controls */}

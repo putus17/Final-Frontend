@@ -135,7 +135,7 @@ const LogIn = () => {
               {/* Left Section */}
               <section className="flex flex-col justify-center max-w-lg space-y-8 md:pr-4">
                 <h2 className="text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-500 drop-shadow-lg">
-                  Welcome to DWAS
+                  Login to DWAS
                 </h2>
                 <p className="text-xl leading-relaxed text-sky-800 dark:text-sky-200 tracking-wide">
                   Connect with communities, track usage, and explore AI-powered water intelligence.

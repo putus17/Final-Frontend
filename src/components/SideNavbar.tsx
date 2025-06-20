@@ -32,9 +32,9 @@ export function NavigationMenuSidebar({ isCollapsed, setIsCollapsed }: SidebarPr
 
   const menuItems = [
     { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { path: '/adduser', label: 'User Management', icon: UserPlus },
-    { path: '/alldzongkhag', label: 'All Dzongkhags', icon: Map },
-    { path: '/allgewog', label: 'All Gewogs', icon: MapPin },
+    { path: '/user', label: 'User', icon: UserPlus },
+    { path: '/dzongkhag', label: 'Dzongkhags', icon: Map },
+    { path: '/gewog', label: 'Gewogs', icon: MapPin },
 
   ];
 

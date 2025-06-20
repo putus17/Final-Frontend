@@ -97,12 +97,12 @@ const DzongkhagCard = ({
             </div>
           </div>
 
-          <Card>
-  <CardContent className="flex flex-col space-y-4">
+          <Card className='bg-gradient-to-br from-cyan-800 to-cyan-700/80 border border-cyan-600 rounded-lg p-4 shadow-md'>
+  <CardContent className="flex flex-col space-y-4 ">
     {/* Main content above here, if any */}
 
     {/* Footer section with dates centered */}
-    <div className="text-center text-xs text-cyan-300">
+    <div className="text-center text-xs text-white">
       <p>Created: {formatDate(dzongkhagData.createdAt)}</p>
       <p>Updated: {formatDate(dzongkhagData.updatedAt)}</p>
     </div>
@@ -110,20 +110,13 @@ const DzongkhagCard = ({
     {/* Action buttons aligned vertically on the right */}
     <div className="flex justify-end space-x-0 space-y-2 flex-col items-end">
       <DialogTrigger asChild>
-        <Button
-          size="sm"
-          variant="ghost"
-          className="text-cyan-200 hover:bg-cyan-800/40 w-full flex justify-center"
-        >
-          <Eye className="w-4 h-4 mr-1" />
-          View
-        </Button>
+     
       </DialogTrigger>
       <Button
         size="sm"
         variant="outline"
         onClick={() => onEditDzongkhag(dzongkhagData)}
-        className="border-cyan-500 text-cyan-300 hover:bg-cyan-800/50 w-full flex justify-center"
+        className="border-cyan-500 text-cyan-600 hover:bg-cyan-800/50 w-full flex justify-center"
       >
         <Pencil className="w-4 h-4 mr-1" />
         Edit
