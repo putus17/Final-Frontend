@@ -8,16 +8,18 @@ import Dashboard from "../layout/Dashboard"
 import Dzongkhag from "../layout/Dzongkhags"
 import Gewog from "../layout/Gewog"
 import NotFoundPage from "../layout/PageNotFound"
+import HomePage from "../layout/Home"
 
 const AppRoute = () => {
   return (
     <Routes>
       {/* Public Routes */}
       <Route path="/login" element={<Login />} />
+        <Route path="/" element={<HomePage />} />
 
       {/* Protected Routes */}
       <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/adduser" element={<UserManagement />} />         
           <Route path="/alldzongkhag" element={<Dzongkhag/>}/>
           <Route path="/allgewog" element={<Gewog/>}/>

@@ -52,7 +52,7 @@ const LogIn = () => {
         identifier: data.identifier,
         password: data.password,
       })
-      navigate('/')
+      navigate('/dashboard')
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Authentication failed')
     } finally {
