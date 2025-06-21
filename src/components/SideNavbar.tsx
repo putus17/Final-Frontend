@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { LogIn, UserPlus, Map, LayoutDashboard, MapPin, ChevronLeft, Menu } from 'lucide-react';
+import { LogIn, UserPlus, Map, LayoutDashboard, MapPin, ChevronLeft, Menu, X } from 'lucide-react';
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -65,7 +65,7 @@ export function NavigationMenuSidebar({ isCollapsed, setIsCollapsed }: SidebarPr
           </div>
 
           {/* Menu Items */}
-          <div className="flex-1 px-3 py-6 space-y-3">
+          <div className="flex-1 px-3 py-6 space-y-3 overflow-y-auto">
             {menuItems.map(({ path, label, icon: Icon }) => {
               const isActive = activeItem === path;
               return (
@@ -136,34 +136,110 @@ export function NavigationMenuSidebar({ isCollapsed, setIsCollapsed }: SidebarPr
   return (
     <>
       {/* Mobile Header */}
-      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-900 shadow">
-        <button
-          onClick={() => setIsMobileOpen(true)}
-          className="text-cyan-700 dark:text-white"
-        >
-          <Menu size={24} />
-        </button>
-        <h1 className="text-lg font-semibold text-gray-800 dark:text-white">DWAS</h1>
+      <div className="md:hidden w-16 flex items-center justify-between px-4 py-3   fixed top-0 left-0 right-0 z-50">
+          <Menu size={24}  onClick={() => setIsMobileOpen(true)}
+          className="text-gray-100 dark:text-white "
+          aria-label="Open sidebar menu" />
       </div>
 
-      {/* Mobile Sidebar */}
-      {isMobileOpen && (
-        <div className="fixed inset-0 z-50 flex md:hidden">
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 bg-black bg-opacity-50"
-            onClick={() => setIsMobileOpen(false)}
-          ></div>
-
-          {/* Sidebar Panel */}
-          <div className="relative z-50 w-64 h-full">
-            {SidebarContent}
+      {/* Mobile Sidebar (slide-in from left) */}
+      <div
+        className={`fixed inset-y-0 left-0 z-50 w-4/5 max-w-xs bg-gradient-to-b from-cyan-100 via-blue-100 to-slate-100
+          dark:from-cyan-900 dark:via-blue-900 dark:to-slate-900 text-gray-800 dark:text-white border-r border-blue-300 dark:border-blue-800
+          transform transition-transform duration-300 ease-in-out shadow-xl rounded-tr-xl rounded-br-xl
+          ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}
+        `}
+        aria-hidden={!isMobileOpen}
+      >
+        {/* Mobile Sidebar Header */}
+        <div className="flex items-center justify-between p-5 border-b border-blue-300 dark:border-blue-700">
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-gradient-to-tr from-cyan-500 to-sky-400 rounded-lg flex items-center justify-center text-white font-extrabold text-xl shadow-md">
+              O
+            </div>
+            <h2 className="text-xl font-extrabold tracking-wide">DWAS Panel</h2>
           </div>
+          <button
+            onClick={() => setIsMobileOpen(false)}
+            className="text-cyan-700 dark:text-white hover:bg-cyan-600/20 rounded-full p-1 transition"
+            aria-label="Close sidebar menu"
+          >
+            <X size={28} />
+          </button>
         </div>
+
+        {/* Menu + Footer */}
+        <div className="flex flex-col h-full overflow-y-auto">
+          <NavigationMenu className="flex flex-col h-full">
+            <NavigationMenuList className="flex flex-col h-full">
+              {/* Menu Items */}
+              <div className="flex-1 px-4 py-7 space-y-4">
+                {menuItems.map(({ path, label, icon: Icon }) => {
+                  const isActive = activeItem === path;
+                  return (
+                    <NavigationMenuItem key={path}>
+                      <NavigationMenuLink asChild>
+                        <Link
+                          to={path}
+                          className={`flex items-center gap-4 px-5 py-4 rounded-xl font-medium text-base
+                            transition-all duration-200
+                            ${
+                              isActive
+                                ? 'bg-cyan-300 dark:bg-cyan-700/40 text-black dark:text-white shadow-lg shadow-cyan-300/40'
+                                : 'hover:bg-cyan-200 dark:hover:bg-cyan-700/20 text-cyan-700 dark:text-cyan-200'
+                            }
+                            `}
+                          onClick={() => setIsMobileOpen(false)} // close on mobile
+                        >
+                          <Icon
+                            size={22}
+                            className={`transition-colors ${
+                              isActive ? 'text-cyan-700 dark:text-cyan-300' : 'text-sky-600 dark:text-sky-300'
+                            }`}
+                          />
+                          <span>{label}</span>
+                        </Link>
+                      </NavigationMenuLink>
+                    </NavigationMenuItem>
+                  );
+                })}
+              </div>
+
+              {/* Footer */}
+              <div className="p-5 border-t border-blue-200 dark:border-blue-800/60 bg-blue-100/60 dark:bg-blue-900/40 rounded-t-xl">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-teal-400 to-cyan-600 shadow-lg flex items-center justify-center font-bold text-white text-lg ring-2 ring-cyan-400 dark:ring-cyan-600">
+                    {getInitials(user?.name ?? '')}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-base font-semibold">{user?.name}</p>
+                    <p className="text-sm text-gray-700 dark:text-cyan-300">{user?.role}</p>
+                  </div>
+                  <button
+                    onClick={logout}
+                    title="Logout"
+                    className="text-rose-600 dark:text-rose-400 hover:text-rose-800 transition p-2 rounded-full hover:bg-rose-100 dark:hover:bg-rose-700"
+                  >
+                    <LogIn size={20} />
+                  </button>
+                </div>
+              </div>
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
+      </div>
+
+      {/* Backdrop */}
+      {isMobileOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-40"
+          onClick={() => setIsMobileOpen(false)}
+          aria-hidden="true"
+        />
       )}
 
       {/* Desktop Sidebar */}
-      <aside className="hidden md:block">{SidebarContent}</aside>
+      <aside className="hidden md:flex fixed top-0 left-0 h-full z-40">{SidebarContent}</aside>
     </>
   );
 }
