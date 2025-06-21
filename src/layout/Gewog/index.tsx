@@ -82,62 +82,96 @@ const GewogManagement = () => {
       ? dzongkhags.find((d) => d?._id === dzongkhag)?.name || 'Unknown'
       : dzongkhag?.name || 'Unknown';
 
-  if (loading) return <div className="p-6 text-center text-gray-700">Loading...</div>;
+  if (loading) return <div className="p-6 text-center text-gray-200">Loading...</div>;
   if (error) return <div className="p-6 text-center text-red-500">{error}</div>;
 
   return (
-     <div className="min-h-screen bg-gradient-to-b from-blue-900 via-blue-700 to-teal-600 p-6 text-white">
-      {/* Glass Header */}
-      <header className="max-w-7xl mx-auto mb-12 p-6 bg-white/30 backdrop-blur-md rounded-3xl shadow-lg flex flex-col md:flex-row md:justify-between md:items-center border border-white/40">
-        <div>
-          <h1 className="text-4xl font-extrabold text-gray-800 tracking-wide drop-shadow-sm">
-            Gewog Management
-          </h1>
-          <p className="mt-1 text-gray-200 italic font-light max-w-md">
-            A clean and simple interface to browse and manage your gewogs.
-          </p>
-        </div>
+<div className="min-h-screen bg-gradient-to-b from-blue-900 via-blue-700 to-teal-600 p-6 text-white">
+
+  {/* Redesigned Header */}
+  <header className="max-w-6xl mx-auto mb-10 rounded-3xl overflow-hidden shadow-2xl border border-cyan-400/20 backdrop-blur-xl bg-white/10">
+    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 p-6 sm:p-8">
       
-      </header>
+      {/* Title and Subtitle */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-3 text-cyan-200">
+          <svg className="w-7 h-7 text-cyan-400 drop-shadow-md" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+          </svg>
+          <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">Gewog Management</h1>
+        </div>
+        <p className="text-sm text-cyan-100/90 font-light max-w-md leading-relaxed">
+          Manage and explore gewogs in a sleek, organized dashboard interface. Add, edit, and view all in one place.
+        </p>
+      </div>
+    </div>
+  </header>
+
 
       {/* Controls */}
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-5 mb-10">
-        {/* Search Input */}
-        <div className="relative w-full md:max-w-md">
-          <Search className="absolute left-4 top-3.5 h-5 w-5 text-gray-400" />
+      <div className="max-w-7xl mx-auto mb-10 flex flex-col lg:flex-row lg:items-center gap-4">
+        {/* Search */}
+        <div className="relative w-full lg:max-w-md">
+          <Search className="absolute left-4 top-3.5 h-5 w-5 text-white opacity-80" />
           <input
             type="text"
             placeholder="Search Gewogs..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-2xl border border-gray-300 bg-white py-3 pl-11 pr-4 text-gray-700 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent"
+            className="
+              w-full
+              rounded-xl
+              bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600
+              text-white placeholder-white/70
+              py-3 pl-11 pr-4
+              font-medium
+              shadow-lg shadow-cyan-700/40
+              focus:outline-none focus:ring-2 focus:ring-cyan-300
+              transition-all duration-300
+            "
           />
         </div>
 
-        {/* Dzongkhag Dropdown */}
+        {/* Dropdown */}
         <select
           value={selectedDzongkhag}
           onChange={(e) => setSelectedDzongkhag(e.target.value)}
-          className="w-full md:w-64 rounded-2xl border border-gray-300 bg-white py-3 px-4 text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent"
+          className="
+            w-full lg:w-64
+            rounded-xl
+            bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600
+            text-white font-semibold
+            py-3 px-4
+            shadow-lg shadow-cyan-700/40
+            focus:outline-none focus:ring-2 focus:ring-cyan-300
+            transition-all duration-300
+            appearance-none
+          "
         >
-          <option value="">All Dzongkhags</option>
-          {dzongkhags
-            .filter((d) => d && d._id)
-            .map((d) => (
-              <option key={d._id} value={d._id} className="text-gray-800">
-                {d.name}
-              </option>
-            ))}
+          <option value="" className="bg-white text-gray-800">All Dzongkhags</option>
+          {dzongkhags.map((d) => (
+            <option key={d._id} value={d._id} className="bg-white text-gray-800">
+              {d.name}
+            </option>
+          ))}
         </select>
 
-        {/* Add Gewog Button */}
+        {/* Add Button */}
         <button
           onClick={() => {
             setIsModalOpen(true);
             setIsEditing(false);
             setFormData({});
           }}
-          className="inline-flex items-center gap-3 bg-pink-400 hover:bg-pink-500 transition rounded-2xl px-7 py-3 font-bold text-white shadow-lg shadow-pink-300/70"
+          className="
+            inline-flex items-center gap-2
+            bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600
+            hover:from-cyan-500 hover:to-indigo-500
+            transition-all duration-300 ease-in-out
+            rounded-xl px-6 py-3
+            text-white font-semibold shadow-lg
+            shadow-cyan-700/40 hover:shadow-cyan-500/40
+          "
           type="button"
         >
           <Plus className="w-5 h-5" />
@@ -158,7 +192,7 @@ const GewogManagement = () => {
         ))}
       </div>
 
-      {/* Modal Form */}
+      {/* Modal */}
       {isModalOpen && (
         <GewogFormModal
           isEditing={isEditing}
