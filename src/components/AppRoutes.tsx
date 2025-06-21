@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom"
 
 import Login from "../layout/Login"
-import UserManagement from "../layout/UserManagement"
+import UserManagement from "../layout/Users"
 import ProtectedRoute from "./ProtectedRoute"
 import Dashboard from "../layout/Dashboard"
 // import DzongkhagDashboard from "./DzongkhagDashboard"

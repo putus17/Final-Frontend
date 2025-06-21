@@ -38,32 +38,38 @@ const UserAddEdit: React.FC<UserAddEditProps> = ({
   onSubmit,
   initialValues,
 }) => {
-  const [formData, setFormData] = useState<UserFormValues>({
-    _id: '',
-    name: '',
-    phone: '',
-    cid: '',
-    role: UserRole.CONSUMER,
-    password: '',
-  });
+
+ const [formData, setFormData] = useState<UserFormValues>({
+  _id: '',
+  name: null as unknown as string,
+  phone: null as unknown as string,
+  cid: null as unknown as string,
+  role: UserRole.CONSUMER,
+  password: null as unknown as string,
+});
+
 
   const [errors, setErrors] = useState<Partial<Record<keyof UserFormValues, string>>>({});
 
-  useEffect(() => {
-    if (open) {
-      setFormData(
-        initialValues ?? {
-          _id: '',
-          name: '',
-          phone: '',
-          cid: '',
-          role: UserRole.CONSUMER,
-          password: '',
-        }
-      );
-      setErrors({});
+useEffect(() => {
+  if (open) {
+    if (initialValues) {
+      setFormData(initialValues);
+    } else {
+      setFormData({
+        _id: '',
+        name: null as unknown as string,
+        phone: null as unknown as string,
+        cid: null as unknown as string,
+        role: UserRole.CONSUMER,
+        password: null as unknown as string,
+      });
     }
-  }, [open, initialValues]);
+    setErrors({});
+  }
+}, [open, initialValues]);
+
+
 
   // Changed value type from any to string
   const handleChange = (field: keyof UserFormValues, value: string) => {

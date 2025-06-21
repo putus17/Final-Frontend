@@ -49,7 +49,6 @@ export const useUserStore = create<UserStore>()(
         set({ loading: true, error: null })
         try {
           const res = await fetchAllUsersApi()
-          console.log(res, "res")
           set({ users: res.data })
         } catch (error: unknown) {
           let msg = 'Failed to fetch users'

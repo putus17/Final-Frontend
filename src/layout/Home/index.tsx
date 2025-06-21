@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "../../components/ui/button";
 import { motion, useAnimation } from "framer-motion";
-import { Droplet, Zap, Wifi, CheckCircle2 } from "lucide-react";
+import { Droplet, CheckCircle2 } from "lucide-react";
 
 const navItems = [
   { name: "Home", to: "/" },
@@ -45,11 +45,11 @@ const HomePage = () => {
 
   return (
     <div
-      className={`min-h-screen ${
+      className={`min-h-screen px-6 ${
         darkMode
           ? "bg-gradient-to-b from-[#001f24] via-[#003633] to-[#004d40] text-[#a7e6e1]"
-          : "bg-gradient-to-b from-[#86C5D9] via-[#4DA0AE] to-[#00798C] text-[#05386B]"
-      } px-6`}
+          : "bg-gradient-to-b from-[#86C5D9] via-[#4DA0AE] to-[#00798C] text-white"
+      }`}
     >
       {/* Header */}
       <header className="relative flex flex-col max-w-7xl mx-auto py-8">
@@ -60,30 +60,30 @@ const HomePage = () => {
         <div className="relative z-10 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <motion.div animate={bounceControls}>
-              <Droplet className="w-10 h-10 text-[#00a8cc]" />
+              <Droplet
+                className={`w-10 h-10 ${
+                  darkMode ? "text-[#48cae4]" : "text-[#00a8cc]"
+                }`}
+              />
             </motion.div>
             <div>
-              <h1 className="text-3xl font-extrabold text-[#023047] dark:text-[#a3cef1]">
+              <h1
+                className={`text-3xl font-extrabold ${
+                  darkMode ? "text-[#a7e6e1]" : "text-[#d6dee3]"
+                }`}
+              >
                 Druk Water Authority System (DWAS)
               </h1>
-              <p className="text-sm font-medium text-[#0077b6] dark:text-[#48cae4]">
+              <p
+                className={`text-sm font-medium ${
+                  darkMode ? "text-gray-200" : "text-gray-800"
+                }`}
+              >
                 National Water Intelligence for Bhutan
               </p>
             </div>
           </div>
           <div className="flex items-center space-x-3">
-            <motion.div
-              animate={{ rotate: [0, 15, -15, 15, 0] }}
-              transition={{ repeat: Infinity, duration: 3 }}
-            >
-              <Zap className="w-5 h-5 text-[#00b4d8]" />
-            </motion.div>
-            <motion.div
-              animate={{ y: [0, -6, 0] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-            >
-              <Wifi className="w-5 h-5 text-[#00b4d8]" />
-            </motion.div>
             <button
               onClick={() => setDarkMode(!darkMode)}
               className="ml-4 w-10 h-5 bg-[#48cae4] dark:bg-[#005f73] rounded-full relative"
@@ -100,8 +100,9 @@ const HomePage = () => {
 
         {/* Nav Bar */}
         <nav
-          className="mt-8 flex justify-end space-x-10 text-lg font-semibold
-          text-[#023047] dark:text-[#caf0f8]"
+          className={`mt-8 flex justify-end space-x-10 text-lg font-semibold ${
+            darkMode ? "text-[#caf0f8]" : "text-[#023047]"
+          }`}
         >
           {navItems.map(({ name, to }) => {
             const isActive = location.pathname === to;
@@ -111,8 +112,10 @@ const HomePage = () => {
                 to={to}
                 className={`relative px-4 py-2 rounded hover:bg-[#0096c7] hover:text-white transition ${
                   isActive
-                    ? "text-[#00b4d8] dark:text-[#caf0f8] font-bold after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-1 after:bg-[#00b4d8] after:rounded"
-                    : "text-[#023047] dark:text-[#90e0ef]"
+                    ? "text-[#00b4d8] font-bold after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-1 after:bg-[#00b4d8] after:rounded"
+                    : darkMode
+                    ? "text-[#90e0ef]"
+                    : "text-[#023047]"
                 }`}
               >
                 {name}
@@ -123,7 +126,13 @@ const HomePage = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="pt-16 pb-28 bg-gradient-to-tr from-[#0096c7] via-[#00b4d8] to-[#48cae4] text-white text-center px-6 rounded-3xl shadow-lg max-w-5xl mx-auto">
+      <section
+        className={`pt-16 pb-28 rounded-3xl shadow-lg max-w-5xl mx-auto text-center px-6 ${
+          darkMode
+            ? "bg-gradient-to-tr from-[#00798c] via-[#004d40] to-[#013440] text-[#a7e6e1]"
+            : "bg-gradient-to-tr from-[#0096c7] via-[#00b4d8] to-[#48cae4] text-white"
+        }`}
+      >
         <h1 className="text-5xl font-extrabold mb-5 animate-pulse">
           Wisdom Flows with Every Drop
         </h1>
@@ -132,7 +141,13 @@ const HomePage = () => {
           data, driven by compassion.
         </p>
         <Link to="/dashboard">
-          <Button className="bg-[#caf0f8] text-[#023047] px-8 py-3 rounded-lg font-semibold shadow-md hover:bg-[#ade8f4] transition">
+          <Button
+            className={`px-8 py-3 rounded-lg font-semibold shadow-md transition ${
+              darkMode
+                ? "bg-[#caf0f8] text-[#023047] hover:bg-[#ade8f4]"
+                : "bg-white text-[#00798c] hover:bg-[#e0f7fa]"
+            }`}
+          >
             Go to Dashboard 🚀
           </Button>
         </Link>
@@ -143,10 +158,12 @@ const HomePage = () => {
         initial={{ opacity: 0, y: 60 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="py-24 bg-[#90e0ef] dark:bg-[#012f33] text-center px-6 rounded-3xl max-w-5xl mx-auto mt-16 shadow-md"
+        className={`py-24 rounded-3xl max-w-5xl mx-auto mt-16 shadow-md text-center px-6 ${
+          darkMode ? "bg-[#012f33] text-[#caf0f8]" : "bg-[#90e0ef] text-[#0077b6]"
+        }`}
       >
-        <h2 className="text-4xl font-bold text-[#0077b6] dark:text-[#caf0f8] mb-5">About Us</h2>
-        <p className="text-lg max-w-3xl mx-auto text-[#0077b6] dark:text-[#caf0f8] leading-relaxed">
+        <h2 className="text-4xl font-bold mb-5">About Us</h2>
+        <p className="text-lg max-w-3xl mx-auto leading-relaxed">
           Druk Water Authority leads Bhutan in sustainable water resource management through
           technology, transparency, and trust.
         </p>
@@ -158,10 +175,12 @@ const HomePage = () => {
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7 }}
-          className="bg-[#48cae4] dark:bg-[#005f73] p-10 rounded-2xl shadow-lg"
+          className={`p-10 rounded-2xl shadow-lg ${
+            darkMode ? "bg-[#005f73] text-[#caf0f8]" : "bg-[#48cae4] text-[#023047]"
+          }`}
         >
-          <h3 className="text-3xl font-bold text-[#023047] dark:text-[#caf0f8] mb-4">Our Mission</h3>
-          <p className="text-[#023047] dark:text-[#caf0f8] leading-relaxed">
+          <h3 className="text-3xl font-bold mb-4">Our Mission</h3>
+          <p className="leading-relaxed">
             Empowering Bhutan through resilient water systems and community-focused solutions.
           </p>
         </motion.div>
@@ -169,10 +188,12 @@ const HomePage = () => {
           initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7 }}
-          className="bg-[#90e0ef] dark:bg-[#00798c] p-10 rounded-2xl shadow-lg"
+          className={`p-10 rounded-2xl shadow-lg ${
+            darkMode ? "bg-[#00798c] text-[#caf0f8]" : "bg-[#90e0ef] text-[#023047]"
+          }`}
         >
-          <h3 className="text-3xl font-bold text-[#023047] dark:text-[#caf0f8] mb-4">Our Vision</h3>
-          <p className="text-[#023047] dark:text-[#caf0f8] leading-relaxed">
+          <h3 className="text-3xl font-bold mb-4">Our Vision</h3>
+          <p className="leading-relaxed">
             A water-secure Bhutan where innovation and tradition work in harmony.
           </p>
         </motion.div>
@@ -183,10 +204,14 @@ const HomePage = () => {
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.7 }}
-        className="py-24 bg-[#90e0ef] dark:bg-[#023047] text-center px-6 rounded-3xl max-w-7xl mx-auto mt-16 shadow-lg"
+        className={`py-24 rounded-3xl max-w-7xl mx-auto mt-16 shadow-lg text-left px-6 ${
+          darkMode ? "bg-[#023047] text-[#caf0f8]" : "bg-[#90e0ef] text-[#023047]"
+        }`}
       >
-        <h2 className="text-4xl font-bold text-[#0077b6] dark:text-[#caf0f8] mb-12">What We Do</h2>
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-10 max-w-6xl mx-auto text-left">
+        <h2 className="text-4xl font-bold mb-12 text-center">
+          What We Do
+        </h2>
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
           {[
             { title: "Smart Water Monitoring", desc: "Real-time sensors across rivers and reservoirs." },
             { title: "Water Quality Analytics", desc: "AI-driven purity and safety insights." },
@@ -197,7 +222,9 @@ const HomePage = () => {
           ].map(({ title, desc }, i) => (
             <div
               key={i}
-              className="p-6 bg-white/90 dark:bg-[#004d40] rounded-2xl shadow text-[#023047] dark:text-[#caf0f8]"
+              className={`p-6 rounded-2xl shadow ${
+                darkMode ? "bg-[#004d40] text-[#caf0f8]" : "bg-white text-[#023047]"
+              }`}
             >
               <h4 className="text-xl font-semibold mb-3">{title}</h4>
               <p className="text-sm leading-relaxed">{desc}</p>
@@ -211,7 +238,14 @@ const HomePage = () => {
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="py-24 px-8 bg-gradient-to-b from-[#00798c] via-[#004d40] to-[#013440] relative overflow-hidden rounded-3xl max-w-5xl mx-auto mt-16 shadow-lg"
+        className="py-24 px-8 relative overflow-hidden rounded-3xl max-w-5xl mx-auto mt-16 shadow-lg"
+        style={{
+          background:
+            darkMode
+              ? "linear-gradient(to bottom, #00798c, #004d40, #013440)"
+              : "linear-gradient(to bottom, #0096c7, #00b4d8, #48cae4)",
+          color: darkMode ? "#a7e6e1" : "#004d40",
+        }}
       >
         {/* Decorative wave background */}
         <svg
@@ -221,13 +255,13 @@ const HomePage = () => {
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            fill="#004d40"
+            fill={darkMode ? "#004d40" : "#004d40"}
             fillOpacity="0.4"
             d="M0,128L48,160C96,192,192,256,288,261.3C384,267,480,213,576,165.3C672,117,768,75,864,64C960,53,1056,75,1152,90.7C1248,107,1344,117,1392,122.7L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
           />
         </svg>
 
-        <h2 className="text-4xl font-extrabold text-white mb-14 drop-shadow-lg text-center">
+        <h2 className="text-4xl font-extrabold mb-14 drop-shadow-lg text-center">
           Latest Initiatives
         </h2>
 
@@ -236,10 +270,20 @@ const HomePage = () => {
             <motion.div
               key={index}
               whileHover={{ scale: 1.06 }}
-              className="flex items-start space-x-5 bg-white/20 backdrop-blur-md rounded-2xl p-6 shadow-lg cursor-pointer transition-shadow duration-300"
+              className={`flex items-start space-x-5 rounded-2xl p-6 shadow-lg cursor-pointer transition-shadow duration-300 ${
+                darkMode ? "bg-white/10" : "bg-white/90"
+              }`}
             >
-              <CheckCircle2 className="w-9 h-9 text-[#48cae4]" />
-              <p className="text-[#004d40] dark:text-[#a7e6e1] font-semibold text-lg leading-relaxed">
+              <CheckCircle2
+                className={`w-9 h-9 ${
+                  darkMode ? "text-[#48cae4]" : "text-[#48cae4]"
+                }`}
+              />
+              <p
+                className={`font-semibold text-lg leading-relaxed ${
+                  darkMode ? "text-[#a7e6e1]" : "text-[#004d40]"
+                }`}
+              >
                 {item}
               </p>
             </motion.div>
@@ -252,27 +296,38 @@ const HomePage = () => {
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.7 }}
-        className="py-24 bg-[#00b4d8] dark:bg-[#005f73] text-center rounded-3xl max-w-6xl mx-auto mt-20 shadow-lg"
+        className={`py-24 rounded-3xl max-w-6xl mx-auto mt-20 shadow-lg text-center px-6 ${
+          darkMode ? "bg-[#005f73] text-[#caf0f8]" : "bg-[#00b4d8] text-[#023047]"
+        }`}
       >
-        <h2 className="text-4xl font-bold text-[#023047] dark:text-[#caf0f8] mb-10">Our Partners</h2>
-        <div className="flex flex-wrap justify-center gap-8 text-base font-semibold text-[#023047] dark:text-[#caf0f8]">
-          <span className="inline-block rounded-xl px-6 py-2 bg-white/90 dark:bg-[#00798c] shadow-md">
-            Ministry of Agriculture
-          </span>
-          <span className="inline-block rounded-xl px-6 py-2 bg-white/90 dark:bg-[#00798c] shadow-md">
-            Bhutan Hydrology Institute
-          </span>
-          <span className="inline-block rounded-xl px-6 py-2 bg-white/90 dark:bg-[#00798c] shadow-md">
-            Himalayan Water Trust
-          </span>
-          <span className="inline-block rounded-xl px-6 py-2 bg-white/90 dark:bg-[#00798c] shadow-md">
-            Green Tech Partners
-          </span>
+        <h2 className="text-4xl font-bold mb-10">Our Partners</h2>
+        <div className="flex flex-wrap justify-center gap-8 text-base font-semibold">
+          {[
+            "Ministry of Agriculture",
+            "Bhutan Hydrology Institute",
+            "Himalayan Water Trust",
+            "Green Tech Partners",
+          ].map((partner, i) => (
+            <span
+              key={i}
+              className={`inline-block rounded-xl px-6 py-2 shadow-md ${
+                darkMode ? "bg-[#00798c]" : "bg-white/90"
+              }`}
+            >
+              {partner}
+            </span>
+          ))}
         </div>
       </motion.section>
 
       {/* Footer */}
-      <footer className="bg-[#52b0cf] dark:bg-[#002f2f] text-center py-6 text-sm text-[#023047] dark:text-[#a7e6e1] mt-24">
+      <footer
+        className={`text-center py-6 text-sm mt-24 ${
+          darkMode
+            ? "bg-[#002f2f] text-[#a7e6e1]"
+            : "bg-[#52b0cf] text-[#023047]"
+        }`}
+      >
         © {new Date().getFullYear()} Druk Water Authority. All rights reserved.
       </footer>
     </div>

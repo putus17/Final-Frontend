@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Droplet, Zap, Wifi, CheckIcon } from 'lucide-react'
+import { Droplet, CheckIcon } from 'lucide-react'
 
 import { Form } from '../../components/ui/form'
 import { Button } from '../../components/ui/button'
@@ -28,15 +28,13 @@ const LogIn = () => {
 
   const toggleDark = () => setDarkMode(prev => !prev)
 
-
-
   const schema = loginFormSchema()
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
-      identifier: '',
-      password: '',
+      identifier: '17261422',
+      password: 'secret1994',
     },
   })
 
@@ -84,23 +82,6 @@ const LogIn = () => {
           </div>
         </div>
         <div className="relative z-10 flex items-center space-x-6">
-          <motion.div
-            animate={{ rotate: [0, 15, -15, 15, 0] }}
-            transition={{ repeat: Infinity, duration: 3 }}
-            whileHover={{ rotate: 10 }}
-            className="cursor-pointer"
-          >
-            <Zap className="w-6 h-6 text-sky-400 dark:text-sky-300 drop-shadow-md" />
-          </motion.div>
-          <motion.div
-            animate={{ y: [0, -6, 0] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-            whileHover={{ y: -10 }}
-            className="cursor-pointer"
-          >
-            <Wifi className="w-6 h-6 text-sky-400 dark:text-sky-300 drop-shadow-md" />
-          </motion.div>
-
           <button
             onClick={toggleDark}
             className="w-12 h-6 bg-gray-300 dark:bg-gray-700 rounded-full relative transition-colors focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-md"
@@ -184,9 +165,10 @@ const LogIn = () => {
                     </Button>
                   </form>
                 </Form>
-                <p className="text-center text-sm mt-6 text-sky-500 dark:text-sky-400 font-medium tracking-wide">
-                  - Join the blue movement. Make every drop count.
-                </p>
+              <p className="mt-6 text-center text-sm font-medium tracking-wide text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900 px-6 py-3 rounded-lg shadow-sm border border-blue-300 dark:border-blue-600">
+  ℹ️ Having trouble? Please reach out to your administrator.
+</p>
+
               </section>
             </div>
           </motion.main>
