@@ -49,22 +49,26 @@ const UserManagement = () => {
     setEditingUser(null);
   };
 
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-cyan-100 to-blue-200 p-6">
+    <div className="min-h-screen px-4 py-6 sm:px-6 lg:px-8 bg-gradient-to-br from-[#004e92] via-[#00c6a7] to-[#f0fdfa]">
       <div className="max-w-5xl mx-auto space-y-6">
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-extrabold text-transparent bg-gradient-to-r from-sky-500 to-cyan-700 bg-clip-text">
+        {/* Header */}
+        <div className="text-center mb-6 sm:mb-10">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-gradient-to-r from-[#00c6ff] to-[#0072ff] bg-clip-text">
             User Management
           </h1>
-          <p className="text-blue-900 font-light mt-2">Manage DWAS user access and roles</p>
+          <p className="text-white text-sm sm:text-base font-light mt-1 sm:mt-2">
+            Manage DWAS user access and roles
+          </p>
         </div>
 
-        <div className="bg-white/60 backdrop-blur-md shadow-xl rounded-2xl p-6 border border-blue-100">
+        {/* User List Card */}
+        <div className="bg-white/10 backdrop-blur-md shadow-xl rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-white/20">
           <UserList onAddUserClick={onAddUserClick} onEditUser={onEditUser} />
         </div>
       </div>
 
+      {/* Dialog Component */}
       <UserAddEdit
         open={dialogOpen}
         closeDialog={closeDialog}

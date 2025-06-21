@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 
 import Login from "../layout/Login"
 import UserManagement from "../layout/Users"
@@ -26,7 +26,8 @@ const AppRoute = () => {
 
           
         </Route>
-       <Route path="*" element={<NotFoundPage/>}/>
+       <Route path="/404" element={<NotFoundPage />} />
+<Route path="*" element={<Navigate to="/404" replace />} />
     </Routes>
   )
 }

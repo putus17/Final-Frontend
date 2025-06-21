@@ -54,25 +54,25 @@ const UserList = ({ onAddUserClick, onEditUser }: UserListProps) => {
     <div className="max-w-7xl mx-auto bg-gradient-to-br from-[#012B44] via-[#005C8D] to-[#007EA7] text-white rounded-2xl shadow-2xl overflow-hidden border border-[#00A9CE]/30">
 
       {/* Header */}
-      <div className="bg-gradient-to-r from-[#005C8D] to-[#007EA7] px-8 py-6 flex justify-between items-center shadow-md">
+      <div className="bg-gradient-to-r from-[#005C8D] to-[#007EA7] px-6 py-4 sm:px-8 sm:py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="flex items-center gap-4">
           <div className="bg-white/10 p-2 rounded-full shadow">
             <Users size={24} className="text-cyan-200" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold tracking-wider text-cyan-100">DWAS · Users</h2>
+            <h2 className="text-xl sm:text-2xl font-bold tracking-wider text-cyan-100">DWAS · Users</h2>
             <p className="text-sm text-cyan-300">Manage roles & profiles in the DWAS of data</p>
           </div>
         </div>
         {hasAdminPrivileges && (
-          <Button onClick={onAddUserClick} className="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold shadow">
+          <Button onClick={onAddUserClick} className="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold shadow px-4 py-2 rounded-md">
             + Add User
           </Button>
         )}
       </div>
 
-      {/* Table */}
-      <div className="px-6 py-6 overflow-x-auto">
+      {/* Responsive Content */}
+      <div className="px-4 py-6 sm:px-6">
         {loading ? (
           <div className="flex justify-center items-center py-12">
             <div>
@@ -88,79 +88,122 @@ const UserList = ({ onAddUserClick, onEditUser }: UserListProps) => {
             </div>
           </div>
         ) : (
-          <table className="w-full text-sm border-collapse rounded-lg overflow-hidden">
-            <thead className="bg-[#003D5C] text-cyan-100 text-xs uppercase tracking-widest">
-              <tr>
-                <th className="px-4 py-3 text-left">User</th>
-                <th className="px-4 py-3 text-left">Contact</th>
-                <th className="px-4 py-3 text-left">Role</th>
-                {hasAdminPrivileges && (
-                  <th className="px-4 py-3 text-right">Actions</th>
-                )}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-cyan-700/30">
+          <>
+            {/* Mobile View */}
+            <div className="space-y-4 sm:hidden">
               {users.map((u) => {
-                const role = u.role ?? 'unknown'
                 const isCurrentUser = user?._id === u._id
+                const role = u.role ?? 'unknown'
 
                 return (
-                  <tr
-                    key={u._id}
-                    className={`transition duration-150 ${
-                      isCurrentUser
-                        ? 'bg-cyan-900/40'
-                        : 'hover:bg-cyan-700/20'
-                    }`}
-                  >
-                    <td className="px-4 py-4 whitespace-nowrap">
+                  <div key={u._id} className={`bg-[#003D5C]/60 rounded-xl p-4 shadow transition ${isCurrentUser ? 'ring-2 ring-cyan-300' : ''}`}>
+                    <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-3">
                         <div className="w-9 h-9 flex items-center justify-center bg-cyan-500 text-white text-sm font-bold rounded-full shadow">
                           {u.name.charAt(0).toUpperCase()}
                         </div>
-                        <div className="leading-tight">
+                        <div>
                           <p className="font-medium">{u.name}</p>
                           <p className="text-xs text-cyan-200/70">CID: {u.cid}</p>
                         </div>
                       </div>
-                    </td>
-                    <td className="px-4 py-4">
-                      <p>{u.phone || '-'}</p>
-                      <p className="text-xs text-cyan-200/60">Mobile</p>
-                    </td>
-                    <td className="px-4 py-4">
-                      <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold border ${getRoleBadgeColor(role)}`}>
-                        {role}
-                      </span>
-                    </td>
-                    {hasAdminPrivileges && (
-                      <td className="px-4 py-4 text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-cyan-300 hover:text-cyan-100"
-                            onClick={() => onEditUser(u as User)}
-                          >
+                      {hasAdminPrivileges && (
+                        <div className="flex gap-2">
+                          <Button variant="ghost" size="icon" className="text-cyan-300" onClick={() => onEditUser(u as User)}>
                             <Edit size={16} />
                           </Button>
                           <Button
                             variant="ghost"
-                            size="sm"
-                            className="text-red-400 hover:text-red-600"
+                            size="icon"
+                            className="text-red-400"
                             onClick={() => handleDeleteClick(u._id, u.name)}
                             disabled={isCurrentUser}
                           >
                             <Trash2 size={16} />
                           </Button>
                         </div>
-                      </td>
-                    )}
-                  </tr>
+                      )}
+                    </div>
+                    <p className="text-sm">📞 {u.phone || '-'}</p>
+                    <span className={`inline-block mt-2 px-3 py-1 rounded-full text-xs font-semibold border ${getRoleBadgeColor(role)}`}>
+                      {role}
+                    </span>
+                  </div>
                 )
               })}
-            </tbody>
-          </table>
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden sm:block overflow-x-auto">
+              <table className="w-full text-sm border-collapse rounded-lg overflow-hidden">
+                <thead className="bg-[#003D5C] text-cyan-100 text-xs uppercase tracking-widest">
+                  <tr>
+                    <th className="px-4 py-3 text-left">User</th>
+                    <th className="px-4 py-3 text-left">Contact</th>
+                    <th className="px-4 py-3 text-left">Role</th>
+                    {hasAdminPrivileges && <th className="px-4 py-3 text-right">Actions</th>}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-cyan-700/30">
+                  {users.map((u) => {
+                    const isCurrentUser = user?._id === u._id
+                    const role = u.role ?? 'unknown'
+
+                    return (
+                      <tr
+                        key={u._id}
+                        className={`transition duration-150 ${isCurrentUser ? 'bg-cyan-900/40' : 'hover:bg-cyan-700/20'}`}
+                      >
+                        <td className="px-4 py-4 whitespace-nowrap">
+                          <div className="flex items-center gap-3">
+                            <div className="w-9 h-9 flex items-center justify-center bg-cyan-500 text-white text-sm font-bold rounded-full shadow">
+                              {u.name.charAt(0).toUpperCase()}
+                            </div>
+                            <div className="leading-tight">
+                              <p className="font-medium">{u.name}</p>
+                              <p className="text-xs text-cyan-200/70">CID: {u.cid}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-4 py-4">
+                          <p>{u.phone || '-'}</p>
+                          <p className="text-xs text-cyan-200/60">Mobile</p>
+                        </td>
+                        <td className="px-4 py-4">
+                          <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold border ${getRoleBadgeColor(role)}`}>
+                            {role}
+                          </span>
+                        </td>
+                        {hasAdminPrivileges && (
+                          <td className="px-4 py-4 text-right">
+                            <div className="flex justify-end gap-2">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="text-cyan-300 hover:text-cyan-100"
+                                onClick={() => onEditUser(u as User)}
+                              >
+                                <Edit size={16} />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="text-red-400 hover:text-red-600"
+                                onClick={() => handleDeleteClick(u._id, u.name)}
+                                disabled={isCurrentUser}
+                              >
+                                <Trash2 size={16} />
+                              </Button>
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
 

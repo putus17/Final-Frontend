@@ -10,7 +10,7 @@ const App = () => {
     const location = useLocation()
 
   // Pages where NavBar should NOT show
-  const hideNavBarOn = ['/login', '/']
+const hideNavBarOn = ['/login', '/', '/404'];
 
   const showNavBar = !hideNavBarOn.includes(location.pathname)
 
