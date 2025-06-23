@@ -1,128 +1,123 @@
 import { useState, useEffect } from 'react'
-import { Droplets, Waves, Gauge, Activity, Database, Wifi } from 'lucide-react'
+import { Droplets, Database, Wifi, CheckCircle } from 'lucide-react'
 
-const Loader = ({ showProgress = true }) => {
+type LoaderProps = {
+  showProgress?: boolean
+  onComplete?: () => void
+}
+
+const loadingMessages = [
+  'Connecting to sensors',
+  'Fetching water quality data',
+  'Checking reservoir levels',
+  'Monitoring flow rates',
+  'Validating system pressure',
+  'Syncing with cloud',
+  'Rendering dashboard',
+  'Finishing setup',
+]
+
+const Loader = ({ showProgress = true, onComplete }: LoaderProps) => {
   const [progress, setProgress] = useState(0)
-  const [currentMessage, setCurrentMessage] = useState(0)
-
-  const loadingMessages = [
-    'Connecting to water sensors...',
-    'Analyzing water quality parameters...',
-    'Checking reservoir levels...',
-    'Monitoring flow rates...',
-    'Validating pressure readings...',
-    'Synchronizing real-time data...',
-    'Updating system dashboard...',
-    'Finalizing water management reports...',
-  ]
+  const [step, setStep] = useState(0)
+  const [fadeOut, setFadeOut] = useState(false)
+  const [visible, setVisible] = useState(true)
 
   useEffect(() => {
-    const progressInterval = setInterval(() => {
-      setProgress((prev) => (prev >= 100 ? 0 : prev + Math.random() * 12))
-    }, 600)
+    const progressTimer = setInterval(() => {
+      setProgress((prev) => {
+        const next = Math.min(prev + Math.random() * 10, 100)
+        return next
+      })
+    }, 700)
 
-    const messageInterval = setInterval(() => {
-      setCurrentMessage((prev) => (prev + 1) % loadingMessages.length)
+    const messageTimer = setInterval(() => {
+      setStep((prev) => Math.min(prev + 1, loadingMessages.length - 1))
     }, 2500)
 
     return () => {
-      clearInterval(progressInterval)
-      clearInterval(messageInterval)
+      clearInterval(progressTimer)
+      clearInterval(messageTimer)
     }
   }, [])
 
+  useEffect(() => {
+    if (progress >= 100) {
+      setFadeOut(true)
+      setTimeout(() => {
+        setVisible(false)
+        onComplete?.()
+      }, 1000)
+    }
+  }, [progress, onComplete])
+
+  if (!visible) return null
+
   return (
-    <div className='flex min-h-screen bg-gradient-to-r from-blue-100 via-white to-cyan-100'>
-      {/* Sidebar Section */}
-      <div className='w-1/2 flex flex-col justify-center px-10 py-12 bg-white border-r border-blue-200'>
-        <h1 className='text-4xl font-extrabold text-blue-700 mb-6'>
-          Water Management System
-        </h1>
-        <p className='text-lg text-blue-600 font-medium mb-10 animate-pulse'>
-          {loadingMessages[currentMessage]}
-        </p>
-
-        <div className='grid grid-cols-2 gap-6'>
-          {/* Info Tile */}
-          <div className='flex items-center gap-4 p-4 bg-blue-50 rounded-xl shadow'>
-            <Gauge className='w-8 h-8 text-blue-500 animate-spin' />
-            <div>
-              <p className='text-sm font-semibold text-blue-800'>Pressure</p>
-              <p className='text-xs text-gray-600'>Monitoring</p>
-            </div>
-          </div>
-          <div className='flex items-center gap-4 p-4 bg-cyan-50 rounded-xl shadow'>
-            <Waves className='w-8 h-8 text-cyan-600 animate-bounce' />
-            <div>
-              <p className='text-sm font-semibold text-cyan-800'>Flow Rate</p>
-              <p className='text-xs text-gray-600'>Active</p>
-            </div>
-          </div>
-          <div className='flex items-center gap-4 p-4 bg-blue-50 rounded-xl shadow'>
-            <Activity className='w-8 h-8 text-blue-600 animate-pulse' />
-            <div>
-              <p className='text-sm font-semibold text-blue-800'>Quality</p>
-              <p className='text-xs text-gray-600'>Analyzing</p>
-            </div>
+    <div
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-[#0f172a] via-[#0a0f1d] to-[#020617] transition-opacity duration-1000 ${
+        fadeOut ? 'opacity-0' : 'opacity-100'
+      }`}
+    >
+      <div className='w-full max-w-md p-6 sm:p-8 rounded-2xl border border-white/10 backdrop-blur-xl bg-white/5 shadow-2xl text-white'>
+        {/* Water Ring Animation */}
+        <div className='relative w-24 h-24 mx-auto mb-6'>
+          <div className='absolute inset-0 rounded-full border-4 border-cyan-500 border-dashed animate-spin-slow'></div>
+          <div className='absolute inset-3 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center'>
+            <Droplets className='w-8 h-8 text-white drop-shadow-lg animate-pulse' />
           </div>
         </div>
 
-        {/* Connection Indicators */}
-        <div className='mt-12 flex gap-6'>
-          <div className='flex items-center space-x-2'>
-            <Database className='w-5 h-5 text-green-600' />
-            <div className='w-2 h-2 bg-green-500 rounded-full animate-pulse'></div>
-            <span className='text-sm text-gray-700 font-medium'>
-              DB Connected
-            </span>
-          </div>
-          <div className='flex items-center space-x-2'>
-            <Wifi className='w-5 h-5 text-green-600' />
-            <div className='w-2 h-2 bg-green-500 rounded-full animate-pulse'></div>
-            <span className='text-sm text-gray-700 font-medium'>
-              Sensors Online
-            </span>
-          </div>
+        {/* System Title */}
+        <div className='text-center mb-6'>
+          <h1 className='text-2xl font-bold tracking-tight'>Initializing System</h1>
+          <p className='text-sm text-cyan-400 mt-1'>Water Management Dashboard</p>
         </div>
-      </div>
 
-      {/* Loader Section */}
-      <div className='w-1/2 flex items-center justify-center p-10 relative'>
-        <div className='relative bg-white/40 backdrop-blur-xl border border-blue-200 shadow-2xl rounded-3xl p-12 max-w-md w-full'>
-          {/* Central Drop Animation */}
-          <div className='relative mx-auto mb-10 w-32 h-32'>
-            <div className='absolute inset-0 bg-gradient-to-b from-blue-500 to-blue-700 rounded-full animate-ping opacity-20'></div>
-            <div className='absolute inset-0 bg-gradient-to-b from-blue-400 to-blue-600 rounded-full animate-pulse shadow-lg'></div>
-            <Droplets className='absolute inset-0 m-auto text-white w-14 h-14 animate-pulse drop-shadow-xl' />
-          </div>
-
-          {/* Progress Bar */}
-          {showProgress && (
-            <div className='mb-6'>
-              <p className='text-sm font-medium text-gray-700 mb-2'>
-                Initializing...
-              </p>
-              <div className='w-full bg-gray-200 rounded-full h-3 overflow-hidden shadow-inner'>
-                <div
-                  className='h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full transition-all duration-700 ease-in-out'
-                  style={{ width: `${Math.min(progress, 100)}%` }}
-                />
-              </div>
+        {/* Timeline Loading Steps */}
+        <div className='space-y-3 mb-6'>
+          {loadingMessages.map((msg, index) => (
+            <div key={index} className='flex items-center gap-3 text-sm'>
+              {index < step ? (
+                <CheckCircle className='w-4 h-4 text-green-400' />
+              ) : (
+                <div className='w-3 h-3 rounded-full border border-cyan-400 animate-pulse' />
+              )}
+              <span
+                className={`${
+                  index === step ? 'text-cyan-300 font-medium' : 'text-gray-400'
+                }`}
+              >
+                {msg}
+              </span>
             </div>
-          )}
+          ))}
+        </div>
 
-          {/* Dots Animation */}
-          <div className='flex justify-center mt-8 space-x-2'>
-            {[...Array(3)].map((_, i) => (
+        {/* Progress Bar */}
+        {showProgress && (
+          <div className='mt-4'>
+            <div className='w-full bg-gray-800 rounded-full h-3 overflow-hidden shadow-inner'>
               <div
-                key={i}
-                className='w-3 h-3 bg-blue-500 rounded-full animate-bounce'
-                style={{
-                  animationDelay: `${i * 0.2}s`,
-                  animationDuration: '1s',
-                }}
+                className='h-full bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-700 rounded-full'
+                style={{ width: `${Math.min(progress, 100)}%` }}
               />
-            ))}
+            </div>
+            <p className='text-right text-xs text-gray-400 mt-1'>
+              {Math.floor(progress)}%
+            </p>
+          </div>
+        )}
+
+        {/* Footer Status */}
+        <div className='flex justify-between items-center mt-6 text-xs text-gray-400'>
+          <div className='flex items-center gap-1'>
+            <Database className='w-4 h-4 text-green-400' />
+            <span>DB</span>
+          </div>
+          <div className='flex items-center gap-1'>
+            <Wifi className='w-4 h-4 text-green-400' />
+            <span>Online</span>
           </div>
         </div>
       </div>

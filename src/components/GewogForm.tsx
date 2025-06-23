@@ -1,14 +1,14 @@
-import React from 'react';
-import type { DzongkhagType, GewogType } from '../types';
+import React from 'react'
+import type { DzongkhagType, GewogType } from '../types'
 
 type Props = {
-  isEditing: boolean;
-  formData: Partial<GewogType>;
-  dzongkhags: DzongkhagType[];
-  onChange: (field: Partial<GewogType>) => void;
-  onSubmit: () => void;
-  onCancel: () => void;
-};
+  isEditing: boolean
+  formData: Partial<GewogType>
+  dzongkhags: DzongkhagType[]
+  onChange: (field: Partial<GewogType>) => void
+  onSubmit: () => void
+  onCancel: () => void
+}
 
 const GewogForm: React.FC<Props> = ({
   isEditing,
@@ -19,12 +19,12 @@ const GewogForm: React.FC<Props> = ({
   onCancel,
 }) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-blue-100/50 via-white/50 to-blue-200/70 backdrop-blur-sm p-4 sm:p-6">
-      <div className="w-full max-w-md sm:max-w-3xl rounded-3xl bg-white/90 shadow-2xl border border-blue-100 overflow-hidden ring-1 ring-blue-300/20">
-        
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-blue-100/60 via-white/60 to-blue-200/70 backdrop-blur-md p-4 sm:p-6 overflow-auto">
+      <div className="w-full max-w-md sm:max-w-3xl bg-white/90 shadow-2xl rounded-3xl border border-blue-100 overflow-hidden ring-1 ring-blue-300/20">
+
         {/* Header */}
-        <div className="px-6 sm:px-8 py-6 border-b bg-gradient-to-r from-blue-50 to-blue-100">
-          <h2 className="text-xl sm:text-2xl font-bold text-blue-800">
+        <div className="px-6 sm:px-8 py-5 bg-gradient-to-r from-blue-50 to-blue-100 border-b">
+          <h2 className="text-lg sm:text-2xl font-bold text-blue-800">
             {isEditing ? '✏️ Edit Gewog' : '➕ Add New Gewog'}
           </h2>
           <p className="text-xs sm:text-sm text-blue-600 mt-1">
@@ -33,51 +33,41 @@ const GewogForm: React.FC<Props> = ({
         </div>
 
         {/* Form */}
-        <div className="p-6 sm:p-8 space-y-6 max-h-[70vh] overflow-y-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="p-5 sm:p-8 space-y-5 max-h-[70vh] overflow-y-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
 
-            {/* English Name */}
+            {/* Name English */}
             <div>
-              <label className="block text-xs sm:text-sm font-medium text-blue-700 mb-1">
-                Name (English)
-              </label>
+              <label className="block text-sm font-medium text-blue-700 mb-1">Name (English)</label>
               <input
                 type="text"
                 placeholder="e.g., Chukha"
                 value={formData.name || ''}
                 onChange={(e) => onChange({ name: e.target.value })}
-                className="w-full rounded-xl border border-blue-200 px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-900 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                className="w-full rounded-lg border border-blue-200 px-4 py-2 text-sm text-gray-900 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
               />
             </div>
 
-            {/* Dzongkha Name */}
+            {/* Name Dzongkha */}
             <div>
-              <label className="block text-xs sm:text-sm font-medium text-blue-700 mb-1">
-                Name (Dzongkha)
-              </label>
+              <label className="block text-sm font-medium text-blue-700 mb-1">Name (Dzongkha)</label>
               <input
                 type="text"
                 placeholder="ཆུ་ཁ་"
                 value={formData.nameInDzongkha || ''}
                 onChange={(e) => onChange({ nameInDzongkha: e.target.value })}
-                className="w-full rounded-xl border border-blue-200 px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-900 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                className="w-full rounded-lg border border-blue-200 px-4 py-2 text-sm text-gray-900 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
               />
             </div>
 
-            {/* Dzongkhag Select */}
-            <div className="space-y-1">
-              <label className="block text-xs sm:text-sm font-semibold text-violet-700">
-                Dzongkhag
-              </label>
+            {/* Dzongkhag */}
+            <div className="sm:col-span-2">
+              <label className="block text-sm font-semibold text-violet-700 mb-1">Dzongkhag</label>
               <div className="relative">
                 <select
-                  value={
-                    typeof formData.dzongkhag === 'string'
-                      ? formData.dzongkhag
-                      : formData.dzongkhag?._id || ''
-                  }
+                  value={typeof formData.dzongkhag === 'string' ? formData.dzongkhag : formData.dzongkhag?._id || ''}
                   onChange={(e) => onChange({ dzongkhag: e.target.value })}
-                  className="peer w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 sm:px-4 py-2.5 text-xs sm:text-sm text-gray-800 shadow-sm transition focus:border-violet-500 focus:ring-1 focus:ring-violet-400 focus:outline-none"
+                  className="peer w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-800 shadow-sm transition focus:border-violet-500 focus:ring-1 focus:ring-violet-400 focus:outline-none"
                 >
                   <option value="">Select Dzongkhag</option>
                   {dzongkhags.map((dz) => (
@@ -86,15 +76,8 @@ const GewogForm: React.FC<Props> = ({
                     </option>
                   ))}
                 </select>
-                {/* Dropdown arrow */}
                 <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400">
-                  <svg
-                    className="h-3 w-3 sm:h-4 sm:w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    viewBox="0 0 24 24"
-                  >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
                 </div>
@@ -103,9 +86,7 @@ const GewogForm: React.FC<Props> = ({
 
             {/* Population */}
             <div>
-              <label className="block text-xs sm:text-sm font-medium text-blue-700 mb-1">
-                Population
-              </label>
+              <label className="block text-sm font-medium text-blue-700 mb-1">Population</label>
               <input
                 type="number"
                 placeholder="e.g., 3000"
@@ -115,15 +96,13 @@ const GewogForm: React.FC<Props> = ({
                     population: e.target.value ? parseInt(e.target.value) : undefined,
                   })
                 }
-                className="w-full rounded-xl border border-blue-200 px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-900 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                className="w-full rounded-lg border border-blue-200 px-4 py-2 text-sm text-gray-900 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
               />
             </div>
 
             {/* Area */}
             <div>
-              <label className="block text-xs sm:text-sm font-medium text-blue-700 mb-1">
-                Area (sq. km)
-              </label>
+              <label className="block text-sm font-medium text-blue-700 mb-1">Area (sq. km)</label>
               <input
                 type="number"
                 placeholder="e.g., 120.5"
@@ -133,15 +112,13 @@ const GewogForm: React.FC<Props> = ({
                     area: e.target.value ? parseFloat(e.target.value) : undefined,
                   })
                 }
-                className="w-full rounded-xl border border-blue-200 px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-900 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                className="w-full rounded-lg border border-blue-200 px-4 py-2 text-sm text-gray-900 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
               />
             </div>
 
             {/* Latitude */}
             <div>
-              <label className="block text-xs sm:text-sm font-medium text-blue-700 mb-1">
-                Latitude
-              </label>
+              <label className="block text-sm font-medium text-blue-700 mb-1">Latitude</label>
               <input
                 type="number"
                 placeholder="e.g., 27.456"
@@ -154,15 +131,13 @@ const GewogForm: React.FC<Props> = ({
                     },
                   })
                 }
-                className="w-full rounded-xl border border-blue-200 px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-900 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                className="w-full rounded-lg border border-blue-200 px-4 py-2 text-sm text-gray-900 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
               />
             </div>
 
             {/* Longitude */}
             <div>
-              <label className="block text-xs sm:text-sm font-medium text-blue-700 mb-1">
-                Longitude
-              </label>
+              <label className="block text-sm font-medium text-blue-700 mb-1">Longitude</label>
               <input
                 type="number"
                 placeholder="e.g., 89.640"
@@ -175,30 +150,30 @@ const GewogForm: React.FC<Props> = ({
                     },
                   })
                 }
-                className="w-full rounded-xl border border-blue-200 px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-900 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                className="w-full rounded-lg border border-blue-200 px-4 py-2 text-sm text-gray-900 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
               />
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="px-6 sm:px-8 py-5 bg-blue-50 border-t border-blue-200 flex flex-col sm:flex-row justify-end gap-3 sm:gap-4">
+        <div className="px-6 sm:px-8 py-4 bg-blue-50 border-t border-blue-200 flex flex-col sm:flex-row justify-center sm:justify-end gap-3 sm:gap-4">
           <button
             onClick={onCancel}
-            className="rounded-xl px-5 py-2 text-sm font-medium text-blue-700 border border-blue-300 bg-white hover:bg-blue-100 transition shadow-sm"
+            className="w-full sm:w-auto rounded-xl px-5 py-2 text-sm font-medium text-blue-700 border border-blue-300 bg-white hover:bg-blue-100 transition shadow-sm"
           >
             Cancel
           </button>
           <button
             onClick={onSubmit}
-            className="rounded-xl px-5 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition shadow"
+            className="w-full sm:w-auto rounded-xl px-5 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition shadow"
           >
             {isEditing ? 'Update Gewog' : 'Create Gewog'}
           </button>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default GewogForm;
+export default GewogForm

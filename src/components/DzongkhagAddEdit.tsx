@@ -91,11 +91,26 @@ export default function DzongkhagAddEditDialog({
           transition={{ duration: 0.4, ease: 'easeOut' }}
         >
           <DialogHeader className="text-center mb-4 sm:mb-6">
-            <DialogTitle className="text-xl sm:text-3xl text-cyan-700 font-semibold drop-shadow-sm">
-              {form.code ? 'Edit 🌊' : 'Add 🌴'}
-            </DialogTitle>
-            <p className="text-cyan-600 text-sm italic">Capture the waves of detail below.</p>
-          </DialogHeader>
+  <div className="inline-flex items-center justify-center gap-2 sm:gap-3 mb-2">
+    <span
+      className={`inline-flex items-center justify-center rounded-full text-white shadow-md ${
+        form.code ? 'bg-blue-600' : 'bg-emerald-600'
+      } w-8 h-8 sm:w-10 sm:h-10 text-lg sm:text-xl`}
+    >
+      {form.code ? '🌊' : '🌴'}
+    </span>
+    <DialogTitle className="text-lg sm:text-2xl font-bold text-gray-800 dark:text-white tracking-tight">
+      {form.code ? 'Edit Entry' : 'New Entry'}
+    </DialogTitle>
+  </div>
+
+  <p className="text-gray-500 dark:text-gray-300 text-xs sm:text-sm max-w-xs mx-auto">
+    {form.code
+      ? 'Update the existing record with new water data.'
+      : 'Begin tracking a new water monitoring point.'}
+  </p>
+</DialogHeader>
+
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
