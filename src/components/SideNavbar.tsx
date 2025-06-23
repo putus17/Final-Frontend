@@ -1,11 +1,20 @@
 import { useState, useEffect } from 'react';
-import { LogIn, UserPlus, Map, LayoutDashboard, MapPin, ChevronLeft, Menu, X } from 'lucide-react';
+import {
+  LogIn,
+  UserPlus,
+  Map,
+  LayoutDashboard,
+  MapPin,
+  ChevronLeft,
+  Menu,
+  X,
+} from 'lucide-react';
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
-  NavigationMenuList
-} from './ui/navigation-menu';
+  NavigationMenuList,
+} from '../components/ui/navigation-menu';
 import { Link, useLocation } from 'react-router-dom';
 import { useUserStore } from '../store/useAuthStore';
 
@@ -45,90 +54,81 @@ export function NavigationMenuSidebar({ isCollapsed, setIsCollapsed }: SidebarPr
     <div
       className={`h-full flex flex-col justify-between
         ${isCollapsed ? 'w-20' : 'w-72'}
-        bg-gradient-to-b from-cyan-100 via-blue-100 to-slate-100 dark:from-cyan-900 dark:via-blue-900 dark:to-slate-900
-        text-gray-800 dark:text-white border-r border-blue-300 dark:border-blue-800
-      `}
+        bg-gradient-to-b from-[#0f2027] via-[#203a43] to-[#2c5364]
+        text-white border-r border-cyan-600 shadow-lg
+        backdrop-blur-md bg-opacity-70 relative`}
+      style={{ fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}
     >
-      <NavigationMenu className="flex flex-col h-full">
-        <NavigationMenuList className="flex flex-col h-full">
-          {/* Header */}
-          <div className="p-6 flex items-center space-x-4 bg-blue-100 dark:bg-blue-800/20 rounded-b-xl shadow-inner">
-            <div className="w-10 h-10 bg-gradient-to-tr from-cyan-500 to-sky-400 rounded-lg flex items-center justify-center text-white font-bold">
-              O
-            </div>
-            {!isCollapsed && (
-              <div>
-                <h2 className="text-lg font-bold tracking-wide">DWAS Panel</h2>
-                <p className="text-xs text-gray-600 dark:text-cyan-200">Smooth Controls</p>
-              </div>
-            )}
+      {/* Top Nav */}
+      <div className="p-4 flex items-center space-x-4 bg-cyan-700/80 backdrop-blur-sm rounded-b-xl shadow-lg border-b border-cyan-500">
+        <div className="w-10 h-10 bg-gradient-to-tr from-cyan-400 to-blue-300 rounded-lg flex items-center justify-center text-blue-900 font-extrabold shadow-md transform hover:scale-110 transition-transform duration-300">
+          💧
+        </div>
+        {!isCollapsed && (
+          <div>
+            <h2 className="text-lg font-bold tracking-wide drop-shadow-lg">DWAS Panel</h2>
+            <p className="text-xs text-cyan-200">Refreshing Controls</p>
           </div>
+        )}
+      </div>
 
-          {/* Menu Items */}
-          <div className="flex-1 px-3 py-6 space-y-3 overflow-y-auto">
-            {menuItems.map(({ path, label, icon: Icon }) => {
-              const isActive = activeItem === path;
-              return (
-                <NavigationMenuItem key={path}>
-                  <NavigationMenuLink asChild>
-                    <Link
-                      to={path}
-                      className={`flex items-center transition-all px-4 py-3 rounded-lg group ${
+      {/* Menu Items */}
+      <NavigationMenu className="flex-1 overflow-y-auto px-3 py-6 scrollbar-thin scrollbar-thumb-cyan-500 scrollbar-track-cyan-900">
+        <NavigationMenuList className="flex flex-col space-y-3">
+          {menuItems.map(({ path, label, icon: Icon }) => {
+            const isActive = activeItem === path;
+            return (
+              <NavigationMenuItem key={path}>
+                <NavigationMenuLink asChild>
+                  <Link
+                    to={path}
+                    className={`flex items-center transition-all px-4 py-3 rounded-lg group
+                      ${
                         isActive
-                          ? 'bg-cyan-200 dark:bg-cyan-700/30 border border-cyan-400 text-black dark:text-white shadow'
-                          : 'hover:bg-sky-100 dark:hover:bg-sky-800/30 text-cyan-700 dark:text-cyan-200'
+                          ? 'bg-cyan-400 border border-cyan-300 text-blue-900 shadow-lg shadow-cyan-400/60'
+                          : 'hover:bg-cyan-300/70 text-cyan-100 hover:text-white'
                       } ${isCollapsed ? 'justify-center' : 'gap-3'}`}
-                      onClick={() => setIsMobileOpen(false)} // close on mobile
-                    >
-                      <Icon
-                        size={20}
-                        className={`transition ${
-                          isActive
-                            ? 'text-cyan-600 dark:text-cyan-300'
-                            : 'text-sky-600 dark:text-sky-300 group-hover:text-white'
-                        }`}
-                      />
-                      {!isCollapsed && <span className="text-sm">{label}</span>}
-                    </Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              );
-            })}
-          </div>
-
-          {/* Footer */}
-          <div className="p-4 border-t border-blue-200 dark:border-blue-800/50 bg-blue-100/50 dark:bg-blue-900/30">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-teal-400 to-cyan-600 rounded-full flex items-center justify-center font-bold text-white">
-                {getInitials(user?.name ?? '')}
-              </div>
-              {!isCollapsed && (
-                <div className="flex-1">
-                  <p className="text-sm font-semibold">{user?.name}</p>
-                  <p className="text-xs text-gray-600 dark:text-cyan-300">{user?.role}</p>
-                </div>
-              )}
-              <button
-                onClick={logout}
-                title="Logout"
-                className="text-rose-600 dark:text-rose-400 hover:text-rose-800 transition"
-              >
-                <LogIn size={18} />
-              </button>
-            </div>
-          </div>
+                    onClick={() => setIsMobileOpen(false)}
+                  >
+                    <Icon size={20} className={`transition ${isActive ? 'text-blue-900' : 'text-cyan-200 group-hover:text-white'}`} />
+                    {!isCollapsed && <span className="text-sm font-semibold">{label}</span>}
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            );
+          })}
         </NavigationMenuList>
       </NavigationMenu>
 
-      {/* Collapse Toggle (Desktop Only) */}
+      {/* Footer - Logout */}
+      <div className="p-4 border-t border-cyan-600 bg-cyan-800/70 backdrop-blur-md rounded-t-lg">
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-300 rounded-full flex items-center justify-center font-bold text-blue-900 shadow-lg">
+            {getInitials(user?.name ?? '')}
+          </div>
+          {!isCollapsed && (
+            <div className="flex-1">
+              <p className="text-sm font-semibold">{user?.name}</p>
+              <p className="text-xs text-cyan-200">{user?.role}</p>
+            </div>
+          )}
+          <button
+            onClick={logout}
+            title="Logout"
+            className="text-red-400 hover:text-red-600 transition p-2 rounded-full hover:bg-red-800/20"
+          >
+            <LogIn size={18} />
+          </button>
+        </div>
+      </div>
+
+      {/* Collapse Button */}
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="hidden md:flex absolute top-6 -right-3 w-7 h-7 bg-cyan-700 border border-cyan-400 hover:bg-cyan-600 text-white rounded-full items-center justify-center shadow-md"
+        className="hidden md:flex absolute top-6 -right-3 w-8 h-8 bg-cyan-600 border border-cyan-400 hover:bg-cyan-500 text-white rounded-full items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300"
+        aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
       >
-        <ChevronLeft
-          size={16}
-          className={`transition-transform ${isCollapsed ? 'rotate-180' : 'rotate-0'}`}
-        />
+        <ChevronLeft size={18} className={`transition-transform duration-300 ${isCollapsed ? 'rotate-180' : 'rotate-0'}`} />
       </button>
     </div>
   );
@@ -136,109 +136,96 @@ export function NavigationMenuSidebar({ isCollapsed, setIsCollapsed }: SidebarPr
   return (
     <>
       {/* Mobile Header */}
-      <div className="md:hidden w-16 flex items-center justify-between px-4 py-3   fixed top-0 left-0 right-0 z-50">
-          <Menu size={24}  onClick={() => setIsMobileOpen(true)}
-          className="text-gray-100 dark:text-white "
-          aria-label="Open sidebar menu" />
+      <div className="md:hidden w-full flex items-center justify-between px-4 py-3 fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-blue-900 to-cyan-600 text-white shadow-lg backdrop-blur-md">
+        <button
+          onClick={() => setIsMobileOpen(true)}
+          aria-label="Open sidebar menu"
+          className="p-1 rounded-md hover:bg-cyan-600 transition"
+        >
+          <Menu size={24} />
+        </button>
+        <div className="font-bold text-lg select-none drop-shadow-lg">DWAS Panel</div>
+        <div className="w-8" />
       </div>
 
-      {/* Mobile Sidebar (slide-in from left) */}
-      <div
-        className={`fixed inset-y-0 left-0 z-50 w-4/5 max-w-xs bg-gradient-to-b from-cyan-100 via-blue-100 to-slate-100
-          dark:from-cyan-900 dark:via-blue-900 dark:to-slate-900 text-gray-800 dark:text-white border-r border-blue-300 dark:border-blue-800
-          transform transition-transform duration-300 ease-in-out shadow-xl rounded-tr-xl rounded-br-xl
-          ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}
-        `}
+      {/* Mobile Sidebar */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-4/5 max-w-xs bg-gradient-to-b from-blue-900 via-cyan-700 to-teal-500
+          text-white border-r border-cyan-600 shadow-xl rounded-tr-xl rounded-br-xl
+          transform transition-transform duration-300 ease-in-out
+          ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}
         aria-hidden={!isMobileOpen}
       >
-        {/* Mobile Sidebar Header */}
-        <div className="flex items-center justify-between p-5 border-b border-blue-300 dark:border-blue-700">
+        <div className="flex items-center justify-between p-5 border-b border-cyan-600 backdrop-blur-md bg-cyan-800/60 rounded-t-xl">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-gradient-to-tr from-cyan-500 to-sky-400 rounded-lg flex items-center justify-center text-white font-extrabold text-xl shadow-md">
-              O
+            <div className="w-12 h-12 bg-gradient-to-tr from-cyan-400 to-blue-300 rounded-lg flex items-center justify-center text-blue-900 font-extrabold text-xl shadow-md">
+              💧
             </div>
-            <h2 className="text-xl font-extrabold tracking-wide">DWAS Panel</h2>
+            <h2 className="text-xl font-extrabold tracking-wide drop-shadow-lg">DWAS Panel</h2>
           </div>
           <button
             onClick={() => setIsMobileOpen(false)}
-            className="text-cyan-700 dark:text-white hover:bg-cyan-600/20 rounded-full p-1 transition"
+            className="text-white hover:bg-cyan-600 rounded-full p-1 transition"
             aria-label="Close sidebar menu"
           >
             <X size={28} />
           </button>
         </div>
 
-        {/* Menu + Footer */}
-        <div className="flex flex-col h-full overflow-y-auto">
-          <NavigationMenu className="flex flex-col h-full">
-            <NavigationMenuList className="flex flex-col h-full">
-              {/* Menu Items */}
-              <div className="flex-1 px-4 py-7 space-y-4">
-                {menuItems.map(({ path, label, icon: Icon }) => {
-                  const isActive = activeItem === path;
-                  return (
-                    <NavigationMenuItem key={path}>
-                      <NavigationMenuLink asChild>
-                        <Link
-                          to={path}
-                          className={`flex items-center gap-4 px-5 py-4 rounded-xl font-medium text-base
-                            transition-all duration-200
-                            ${
-                              isActive
-                                ? 'bg-cyan-300 dark:bg-cyan-700/40 text-black dark:text-white shadow-lg shadow-cyan-300/40'
-                                : 'hover:bg-cyan-200 dark:hover:bg-cyan-700/20 text-cyan-700 dark:text-cyan-200'
-                            }
-                            `}
-                          onClick={() => setIsMobileOpen(false)} // close on mobile
-                        >
-                          <Icon
-                            size={22}
-                            className={`transition-colors ${
-                              isActive ? 'text-cyan-700 dark:text-cyan-300' : 'text-sky-600 dark:text-sky-300'
-                            }`}
-                          />
-                          <span>{label}</span>
-                        </Link>
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
-                  );
-                })}
-              </div>
+        <NavigationMenu className="flex flex-col h-full">
+          <NavigationMenuList className="flex flex-col h-full">
+            <div className="flex-1 px-4 py-7 space-y-4 overflow-y-auto">
+              {menuItems.map(({ path, label, icon: Icon }) => {
+                const isActive = activeItem === path;
+                return (
+                  <NavigationMenuItem key={path}>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        to={path}
+                        className={`flex items-center gap-4 px-5 py-4 rounded-xl font-medium text-base
+                          transition-all duration-200
+                          ${isActive ? 'bg-cyan-400 text-blue-900 shadow-lg shadow-cyan-400/60' : 'hover:bg-cyan-300 text-cyan-200 hover:text-white'}`}
+                        onClick={() => setIsMobileOpen(false)}
+                      >
+                        <Icon size={22} className={isActive ? 'text-blue-900' : 'text-cyan-200'} />
+                        <span>{label}</span>
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                );
+              })}
+            </div>
 
-              {/* Footer */}
-              <div className="p-5 border-t border-blue-200 dark:border-blue-800/60 bg-blue-100/60 dark:bg-blue-900/40 rounded-t-xl">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-teal-400 to-cyan-600 shadow-lg flex items-center justify-center font-bold text-white text-lg ring-2 ring-cyan-400 dark:ring-cyan-600">
-                    {getInitials(user?.name ?? '')}
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-base font-semibold">{user?.name}</p>
-                    <p className="text-sm text-gray-700 dark:text-cyan-300">{user?.role}</p>
-                  </div>
-                  <button
-                    onClick={logout}
-                    title="Logout"
-                    className="text-rose-600 dark:text-rose-400 hover:text-rose-800 transition p-2 rounded-full hover:bg-rose-100 dark:hover:bg-rose-700"
-                  >
-                    <LogIn size={20} />
-                  </button>
+            <div className="p-5 border-t border-cyan-600 bg-cyan-800/70 rounded-t-xl">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-blue-300 shadow-lg flex items-center justify-center font-bold text-blue-900 text-lg ring-2 ring-cyan-400">
+                  {getInitials(user?.name ?? '')}
                 </div>
+                <div className="flex-1">
+                  <p className="text-base font-semibold">{user?.name}</p>
+                  <p className="text-sm text-cyan-200">{user?.role}</p>
+                </div>
+                <button
+                  onClick={logout}
+                  title="Logout"
+                  className="text-red-400 hover:text-red-600 transition p-2 rounded-full hover:bg-red-800/20"
+                >
+                  <LogIn size={20} />
+                </button>
               </div>
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
-      </div>
+            </div>
+          </NavigationMenuList>
+        </NavigationMenu>
+      </aside>
 
-      {/* Backdrop */}
       {isMobileOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-40"
+          className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm z-40"
           onClick={() => setIsMobileOpen(false)}
           aria-hidden="true"
         />
       )}
 
-      {/* Desktop Sidebar */}
       <aside className="hidden md:flex fixed top-0 left-0 h-full z-40">{SidebarContent}</aside>
     </>
   );
